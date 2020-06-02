@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="IntroController">
+   <children>
+      <ImageView fitHeight="300.0" fitWidth="137.0" layoutX="29.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@hobo.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="300.0" fitWidth="133.0" layoutX="188.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@gladiator.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="164.0" fitWidth="80.0" layoutX="340.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@elf.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="140.0" fitWidth="133.0" layoutX="453.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@spider.jpg" />
+         </image>
+      </ImageView>
+      <Label layoutX="255.0" layoutY="192.0" text="Welcome To The Arena" />
+      <Label layoutX="263.0" layoutY="233.0" text="Choose Your Fighter" />
+      <Button fx:id="hobo" layoutX="64.0" layoutY="316.0" mnemonicParsing="false" onAction="#hoboListener" prefHeight="27.0" prefWidth="68.0" text="Hobo" />
+      <Button fx:id="gladiator" layoutX="195.0" layoutY="316.0" mnemonicParsing="false" onAction="#gladiatorListener" text="Gladiator" />
+      <Button fx:id="elf" layoutX="375.0" layoutY="316.0" mnemonicParsing="false" onAction="#elfListener" prefHeight="27.0" prefWidth="68.0" text="Elf" />
+      <Button fx:id="spider" layoutX="486.0" layoutY="316.0" mnemonicParsing="false" onAction="#spiderListener" prefHeight="27.0" prefWidth="68.0" text="Spider" />
+   </children>
+</AnchorPane>
