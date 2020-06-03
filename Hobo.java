@@ -3,6 +3,7 @@ import java.lang.Thread;
 import javafx.scene.image.Image; // Used for Image class
 
 
+
 public class Hobo extends Fighter
 // Initializes a hobo class inheriting from fighter.
 {	
@@ -13,36 +14,26 @@ public class Hobo extends Fighter
 	private Image punch = new Image("hobopunch.jpg");
 	private Image kick = new Image("hobokick.jpg");
 	private Image weaponImg = new Image("hoboweapon.jpg");
+	private Image specialImg = new Image("hobospecial.jpg");
 
-	public void specialMove() throws InterruptedException
-	{	
-		if (special > 0)
+	public String specialMove()
+	{
+		Random randomNumber = new Random();
+		int x = randomNumber.nextInt(10) + 1;
+		String message = "Text will go here";
+
+		if (this.getSpecial() > 0)
 		{
-			Random randomNumber = new Random();
-			System.out.println(this.getName() + " pulls out 40oz of King Cobra\n");
-			System.out.println("AND STARTS CHUGGING!!\n");
-			int x = randomNumber.nextInt(10) + 15;
-			String healing = "It heals " + this.getName() + " for " + x + " hitpoints!\n";
-			System.out.println(healing);
-
-			if (x > 6)
-			{
-				System.out.println("||IT'S SUPER EFFECTIVE||");
-			}
-
+			message = this.getName() + " chugs 40 to heal for: \n" + x + " hitpoints";
 			this.incHitpoints(x);
-			String statement = "||" + this.getName() + "s hitpoints:  " + this.getHitpoints() + " ||\n";
-			System.out.println(statement);
-			special--;
-			Thread.sleep(1000);
 		}
 
-		if (special <= 0)
+		else if (this.getSpecial() <= 0)
 		{
-			System.out.println(this.getName() + " is out of malt liquor!!");
-			Thread.sleep(1000);
+			message = this.getName() + " is out of malt liquor!";
 		}
-		
+		special--;
+		return message;
 	}
 
 	public Image getImage()
@@ -67,6 +58,12 @@ public class Hobo extends Fighter
 	{
 		// Returns kick image
 		return weaponImg;
+	}
+
+	public Image getSpecialImg()
+	{
+		// Returns kick image
+		return specialImg;
 	}
 
 	public String getName()

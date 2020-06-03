@@ -43,6 +43,12 @@ public class Fighter
 		return image;
 	}
 
+	public Image getSpecialImg()
+	{
+		// Returns kick image
+		return image;
+	}
+
 	public String getBio()
 	{	
 		String bio = "overridden in child class";
@@ -166,10 +172,11 @@ public class Fighter
 		}
 	}
 
-	public void specialMove() throws InterruptedException
+	public String specialMove()
 	// Will be overidden
 	{
-		System.out.println("Special move, coming soon");
+		String message = "Special move, coming soon";
+		return message;
 	}
 	
 }

@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.Label;;
+import javafx.scene.control.Label;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
 import java.util.Random;
@@ -89,8 +89,8 @@ public class ArenaController {
     Stage stage = null;
 
     // Declare player and computer Fighter classes.
-    Fighter player;
-    Fighter computer;
+    public static Fighter player;
+    public static Fighter computer;
     Random randomNumber = new Random(); // Used to randomize integers, simulating dice.
 
 
@@ -174,5 +174,39 @@ public class ArenaController {
 
         computer.decHitpoints(x);
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+    }
+
+    public void kickListener()
+    // Simulates the player punching.
+    {
+        playerImg.setImage(player.getKick());
+        int x = randomNumber.nextInt(10) + 1;
+        String message = "You kick Computer for " + x + " points";
+        playerDisplay.setText(message);
+
+        computer.decHitpoints(x);
+        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+    }
+
+    public void weaponListener()
+    // Simulates the player punching.
+    {
+        playerImg.setImage(player.getWeaponImg());
+        int x = randomNumber.nextInt(10) + 1;
+        String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
+        playerDisplay.setText(message);
+
+        computer.decHitpoints(x);
+        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+    }
+
+    public void specialListener()
+    // Simulates the special move.
+    {   
+        playerImg.setImage(player.getSpecialImg());
+        playerDisplay.setText(player.specialMove());
+        playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
     }
 }

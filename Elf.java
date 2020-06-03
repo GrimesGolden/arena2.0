@@ -9,9 +9,11 @@ public class Elf extends Fighter
 	private int special = 3;
 	private Image image = new Image("elf.jpg");
 
-	public void specialMove() throws InterruptedException
+	public String specialMove()
+	// Will be overidden
 	{
-		System.out.println("Special");
+		String message = "Special move, coming soon";
+		return message;
 	}
 
 	// Getters and setters
