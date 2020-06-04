@@ -105,11 +105,12 @@ public class ArenaController {
         gladiator = new Image("gladiator.jpg");
         elf = new Image("elf.jpg");
         spider = new Image("spider.jpg");
-        blank = new Image("faceless.jpg");
         lose = new Image("dead.jpg");
         win = new Image("victory.gif");
         instructions = new Image("instructions.jpg");
     }
+
+    
 
     public void initFighter(Fighter fighter)
     // First scene before any interactions are made. 
@@ -161,6 +162,7 @@ public class ArenaController {
     }
 
     public void instListener()
+    // Displays instructions to the player.
     {
         playerImg.setImage(instructions);
 
@@ -176,27 +178,30 @@ public class ArenaController {
 
     public void punchListener()
     // Simulates the player punching.
-    {
+    {   
+        // Set image to punch.
         playerImg.setImage(player.getPunch());
+        // Get a random number 1-10.
         int x = randomNumber.nextInt(10) + 1; 
+        // Display message regarding punch.
         String message = "You punch Computer for " + x + " points";
         playerDisplay.setText(message);
-
+        // Reduce hitpoints accordingly.
         computer.decHitpoints(x);
 
         if (computer.getHitpoints() <= 0)
             // If this hit kills the computer.
-            // Then cut to manage game and set hitpoints to zero. 
+            // Then set hitpoints to zero. 
         {
            compHitLabel.setText("0"); 
         } 
 
         else
-        // Otherwise set hitpoints and continue.
+        // Otherwise set hitpoints to value and continue.
         {
             compHitLabel.setText(String.valueOf(computer.getHitpoints()));
         }
-
+        // Manage the next step of the game. 
         manageGame();
     }
 
@@ -207,7 +212,6 @@ public class ArenaController {
         int x = randomNumber.nextInt(10) + 1;
         String message = "You kick Computer for " + x + " points";
         playerDisplay.setText(message);
-
         computer.decHitpoints(x);
         
         if (computer.getHitpoints() <= 0)
@@ -224,48 +228,59 @@ public class ArenaController {
     }
 
     public void weaponListener()
-    // Simulates the player punching.
+    // Simulates the player using weapon.
     {   
-        if (player.getStamina() <= 10)
+        // Decrement Stamina by 10.
+        player.decStamina(10); 
+        // Set image to weapon.
+        playerImg.setImage(player.getWeaponImg());
+        // Random number between 1-10.
+        int x = randomNumber.nextInt(10) + 1;
+        // Print and display message accordingly.
+        String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
+        playerDisplay.setText(message);
+        // Reduce computers hitpoints.
+        computer.decHitpoints(x);
+        // Set the stamina label.
+        playerStaminaLabel.setText(String.valueOf(player.getStamina()));
+
+        if (player.getStamina() < 10)
+        // If player has less than 10 stamina, disable the button. 
         {
             wepButton.setDisable(true);
         }
-        playerImg.setImage(player.getWeaponImg());
-        int x = randomNumber.nextInt(10) + 1;
-        String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
-        playerDisplay.setText(message);
-        playerStaminaLabel.setText(String.valueOf(player.getStamina()));
-
-        player.decStamina(10);
-        computer.decHitpoints(x);
 
         if (computer.getHitpoints() <= 0)
+        // This means the move killed the computer. 
+        // We do this to prevent negative numbers in the label.
         {
            compHitLabel.setText("0");
         } 
-
         else
         {
             compHitLabel.setText(String.valueOf(computer.getHitpoints()));
         }
-
-        manageGame(); // manage game is outside of if, else loop. 
+        // Now continue on with the game.
+        manageGame();
     }
 
     public void specialListener()
     // Simulates the special move.
     {   
-        if (player.getSpecial() <= 1)
+        // Saves text and runs specialMove()
+        String message = player.specialMove(); 
+        // Image work.
+        playerImg.setImage(player.getSpecialImg());
+        // Set labels.
+        playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
+        playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+
+        if (player.getSpecial() < 1)
             // Out of specials.
         {
             specButton.setDisable(true);
         }
 
-        playerImg.setImage(player.getSpecialImg());
-
-        String message = player.specialMove(); // Saves text and runs specialMove()
-        playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
-        playerHitLabel.setText(String.valueOf(player.getHitpoints())); // Because some special moves manage health.
         playerDisplay.setText(message);
 
         if (computer.getHitpoints() <= 0) // Special move killed computer
@@ -287,6 +302,7 @@ public class ArenaController {
     {   
 
         if (player.getHitpoints() <= 0)
+            // If player is dead
         {
             playerDisplay.appendText("\nGame Over!");
             playerImg.setImage(lose);
@@ -301,8 +317,9 @@ public class ArenaController {
         }
 
         if (computer.getHitpoints() <= 0)
+            // If computer is dead
         {
-            playerDisplay.appendText("\nYou fucking won!");
+            playerDisplay.appendText("\nOMG you won!");
             compDisplay.appendText("\nDed.");
             playerImg.setImage(win);
             compImg.setImage(lose);
@@ -321,9 +338,10 @@ public class ArenaController {
         }
     }
 
-    public void compsMove() // Call to manage game removed. 
+    public void compsMove()
     // Computers turn and all accompanying moves.
-    {
+    {   
+        // Rando number between 1 and 4.
         int i = randomNumber.nextInt(4);
 
         if (computer.getSpecial() <= 0)
@@ -333,7 +351,7 @@ public class ArenaController {
         }
 
         if (computer.getStamina() <= 0)
-            // Simulates not using weapon if out of stamina.
+        // Simulates not using weapon if out of stamina.
 
         {
             i = randomNumber.nextInt(2);
@@ -352,6 +370,7 @@ public class ArenaController {
             if (player.getHitpoints() <= 0)
             {
                 playerHitLabel.setText("0");
+                // We only need to manageGame() if computer killed the player.
                 manageGame(); 
             } 
 
@@ -366,7 +385,7 @@ public class ArenaController {
         {   
             // Computer kicks
             compImg.setImage(computer.getKick());
-            int x = randomNumber.nextInt(20) + 1;
+            int x = randomNumber.nextInt(10) + 1;
             String message = "Computer kicks for " + x + " points";
             compDisplay.setText(message);
 
@@ -375,7 +394,7 @@ public class ArenaController {
             if (player.getHitpoints() <= 0)
             {
                 playerHitLabel.setText("0");
-                manageGame(); // This call to manage game could cause issues...
+                manageGame();
             } 
 
             else
@@ -388,7 +407,7 @@ public class ArenaController {
         {   
             // Computer uses weapon
             compImg.setImage(computer.getWeaponImg());
-            int x = randomNumber.nextInt(20) + 1;
+            int x = randomNumber.nextInt(10) + 1;
             String message = "Computer attacks with " + computer.getWeapon() +  " for " + x + " points";
             compDisplay.setText(message);
 
@@ -443,6 +462,8 @@ public class ArenaController {
 
         // Managing computers counters.
         if (computer.getBurn() == 4)
+        // If this is the first turn that puts counters on.
+        // Then skip causing any damage.
         {
             computer.decBurn(1);
         }

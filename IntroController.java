@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import java.awt.event.ActionEvent;
+import java.util.Random;
 
 
 public class IntroController {
@@ -29,6 +30,37 @@ public class IntroController {
 
     // Declare a blank stage 
     Stage stage = null;
+
+    public static Fighter computers_pick()
+    // Picks the computers fighter at random.
+    {
+        Random randomNumber = new Random();
+        int x = randomNumber.nextInt(4);
+
+        Fighter computer;
+
+        if (x == 0)
+        {
+            computer = new Gladiator();
+        }
+
+        else if (x == 1)
+        {
+            computer = new Hobo();
+        }
+
+        else if (x == 2)
+        {
+            computer = new Spider();
+        }
+        else
+        // There must be an else here, otherwise the compiler will complain.
+        {
+            computer = new Elf();
+        }
+
+        return computer;
+    }
 
     public void hoboListener() throws IOException 
         // When hobo button is clicked
@@ -51,7 +83,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Hobo()); 
-        controller.initComputer(Methods.computers_pick()); // When you initialize fighter you should also load computer.
+        controller.initComputer(computers_pick()); // When you initialize fighter you should also load computer.
     } // End method
 
     public void gladiatorListener() throws IOException 
@@ -75,7 +107,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Gladiator()); // Init player  
-        controller.initComputer(Methods.computers_pick()); 
+        controller.initComputer(computers_pick()); 
     }
 
     public void elfListener() throws IOException 
@@ -99,7 +131,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Elf()); // And this line too.
-        controller.initComputer(Methods.computers_pick()); 
+        controller.initComputer(computers_pick()); 
     }
 
     public void spiderListener() throws IOException 
@@ -123,7 +155,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Spider()); // And this line too. 
-        controller.initComputer(Methods.computers_pick());
+        controller.initComputer(computers_pick());
     }
 
 
