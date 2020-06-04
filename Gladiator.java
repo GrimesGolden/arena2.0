@@ -17,34 +17,59 @@ public class Gladiator extends Fighter
 	{
 		Random randomNumber = new Random();
 		int x = randomNumber.nextInt(10) + 1;
-		String message = "Text will go here";
+		String message = this.getName() + " looks to the emperor, should the foe live or die my leige?\n";	
 
-		if (x >= 5)
+		if (this.getName().equals("Player"))
+			// Then Player is using special
 		{
-			message = this.getName() + " looks to the emperor, should my foe live or die leige?\n" + 
-			" it's thumbs down, FINISH HIM!";
-
-			if (this.getName().equals("Player"))
+			if (ArenaController.computer.getHitpoints() < 50)
 			{
-				ArenaController.computer.decHitpoints(100);
-				message += ("\n" + this.getName() + " brutally executes the foe!");
+				if (x < 5)
+				{
+					message += " The emperor gives a thumbs down symbol...FINISH HIM!";
+					ArenaController.computer.decHitpoints(100);
+					message += " EXECUTED!";
+				}
+
+				else if (x > 5)
+				{
+					message += " The emperor gives a thumbs up...CONTINUE THE FIGHT!";
+				}
 			}
 
-			else
+			else if (ArenaController.computer.getHitpoints() >= 50)
 			{
-				ArenaController.player.decHitpoints(100);
+				message += " The emperor does not deign to intervene. This fight has not yet called for blood!";
 			}
-		}
+		} // End players if loop.
 
-		else if (x < 5)
+		else if (this.getName().equals("Computer"))
+			// Then computer is using special.
 		{
-			message = this.getName() + " looks to the emperor, should my foe live or die leige?\n" + 
-			" it's thumbs up, continue the fight!";
-		}	
+			if (ArenaController.player.getHitpoints() < 50)
+			{
+				if (x < 5)
+				{
+					message += " The emperor gives a thumbs down symbol...FINISH HIM!";
+					ArenaController.player.decHitpoints(100);
+					message += " EXECUTED!";
+				}
+
+				else if (x > 5)
+				{
+					message += " The emperor gives a thumbs up...CONTINUE THE FIGHT! (Phew you got lucky)";
+				}
+			}
+
+			else if (ArenaController.player.getHitpoints() >= 50)
+			{
+				message += " The emperor does not deign to intervene. This fight has not yet called for blood!";
+			}
+		} // End computers if loop.
 
 		special--;
 		return message;
-	}
+	} // End special move() method.
 
 	// Getter setter methods
 
@@ -109,4 +134,3 @@ public class Gladiator extends Fighter
 	}
 	
 }
-

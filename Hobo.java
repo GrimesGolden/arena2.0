@@ -19,7 +19,7 @@ public class Hobo extends Fighter
 	public String specialMove()
 	{
 		Random randomNumber = new Random();
-		int x = randomNumber.nextInt(10) + 1;
+		int x = randomNumber.nextInt(10) + 5;
 		String message = "Text will go here";
 
 		if (this.getSpecial() > 0)
