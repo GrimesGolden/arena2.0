@@ -51,7 +51,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Hobo()); 
-        controller.initComputer(ArenaFunctions.computers_pick()); // When you initialize fighter you should also load computer.
+        controller.initComputer(Methods.computers_pick()); // When you initialize fighter you should also load computer.
     } // End method
 
     public void gladiatorListener() throws IOException 
@@ -75,7 +75,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Gladiator()); // Init player  
-        controller.initComputer(ArenaFunctions.computers_pick()); 
+        controller.initComputer(Methods.computers_pick()); 
     }
 
     public void elfListener() throws IOException 
@@ -99,7 +99,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Elf()); // And this line too.
-        controller.initComputer(ArenaFunctions.computers_pick()); 
+        controller.initComputer(Methods.computers_pick()); 
     }
 
     public void spiderListener() throws IOException 
@@ -123,7 +123,7 @@ public class IntroController {
 
         ArenaController controller = loader.getController();
         controller.initFighter(new Spider()); // And this line too. 
-        controller.initComputer(ArenaFunctions.computers_pick());
+        controller.initComputer(Methods.computers_pick());
     }
 
 

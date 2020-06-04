@@ -26,7 +26,11 @@ public class Elf extends Fighter
 			// dec comp hitpoints, inc comp burn
 			message = this.getName() + " fires a flaming arrow for " + x + " damage";
 			ArenaController.computer.decHitpoints(x);
-			ArenaController.computer.incBurn(3);
+			if (x > 6)
+			{	
+				message += "\n Computer was burned!!";
+				ArenaController.computer.incBurn(4);
+			}
 		}
 
 		else if (this.getName().equals("Computer"))
@@ -38,7 +42,11 @@ public class Elf extends Fighter
 			// dec comp hitpoints, inc comp burn
 			message = this.getName() + " fires a flaming arrow for " + x + " damage";
 			ArenaController.player.decHitpoints(x);
-			ArenaController.player.incBurn(3);
+			if (x > 6)
+			{	
+				message += "\n Player was burned!!";
+				ArenaController.player.incBurn(4);
+			}
 		}
 
 		special--;

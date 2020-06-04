@@ -188,21 +188,21 @@ public class ArenaController {
             // If this hit kills the computer.
             // Then cut to manage game and set hitpoints to zero. 
         {
-           compHitLabel.setText("0");
-           manageGame(); 
+           compHitLabel.setText("0"); 
         } 
 
         else
         // Otherwise set hitpoints and continue.
         {
             compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-            manageGame();
         }
+
+        manageGame();
     }
 
     public void kickListener()
     // Simulates the player kicking.
-    {
+    {   
         playerImg.setImage(player.getKick());
         int x = randomNumber.nextInt(10) + 1;
         String message = "You kick Computer for " + x + " points";
@@ -212,15 +212,15 @@ public class ArenaController {
         
         if (computer.getHitpoints() <= 0)
         {
-           compHitLabel.setText("0");
-           manageGame(); 
+           compHitLabel.setText("0"); 
         } 
 
         else
         {
             compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-            manageGame();
         }
+
+        manageGame();
     }
 
     public void weaponListener()
@@ -282,9 +282,10 @@ public class ArenaController {
     }
 
     public void manageGame()
-    // This method will attempt to track deaths, track poison, and other such oddities.
+    // This method will attempt to track deaths, and continue to the computers turn if allowed.
     // Also contains the computersTurn
-    {
+    {   
+
         if (player.getHitpoints() <= 0)
         {
             playerDisplay.appendText("\nGame Over!");
@@ -429,7 +430,76 @@ public class ArenaController {
                 playerHitLabel.setText(String.valueOf(player.getHitpoints()));
             }
         }
+
+        manageCounters(); // At the end of the computers move, now we manage all the counters.
         
-    }
+    } // End comps move method
+
+    public void manageCounters()
+    // Manages poison and burn counters.
+    {
+        String message = "overidden";
+        int x = randomNumber.nextInt(10) + 1;
+
+        // Managing computers counters.
+        if (computer.getBurn() == 4)
+        {
+            computer.decBurn(1);
+        }
+
+        else if (computer.getBurn() > 0 && computer.getBurn() < 4)
+        {
+            message = "\nComputer was burned for " + x + " damage!";
+            computer.decBurn(1);
+            playerDisplay.appendText(message);
+            compDisplay.appendText("\nIt burns!!");
+        }
+
+        // Manage poison
+
+        if (computer.getPoison() == 4)
+        {
+            computer.decPoison(1);
+        }
+
+        else if (computer.getPoison() > 0 && computer.getPoison() < 4)
+        {
+            message = "\nComputer was poisoned for " + x + " damage!";
+            computer.decPoison(1);
+            playerDisplay.appendText(message);
+            compDisplay.appendText(" \nThe venom courses!!");
+
+        }
+
+        // Managing players counters.
+        if (player.getBurn() == 4)
+        {
+            player.decBurn(1);
+        }
+
+        else if (player.getBurn() > 0 && player.getBurn() < 4)
+        {
+            message = "\nPlayer was burned for " + x + " damage!";
+            player.decBurn(1);
+            compDisplay.appendText(message);
+            playerDisplay.appendText("\nIt burns!!");
+
+        }
+
+        // Manage players poison.
+
+        if (player.getPoison() == 4)
+        {
+            player.decPoison(1);
+        }
+
+        else if (player.getPoison() > 0 && player.getPoison() < 4)
+        {
+            message = "\nPlayer was poisoned for " + x + " damage!";
+            player.decPoison(1);
+            compDisplay.appendText(message);
+            playerDisplay.appendText("\nIt burns!!");
+        }
+    } // End method
         
-}
+} // End class.

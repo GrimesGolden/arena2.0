@@ -27,7 +27,11 @@ public class Spider extends Fighter
 			// dec comp hitpoints, inc comp burn
 			message = this.getName() + " injects venom for " + x + " damage";
 			ArenaController.computer.decHitpoints(x);
-			ArenaController.computer.incPoison(3);
+			if (x > 6)
+			{	
+				message += "\n Computer was poisoned!!";
+				ArenaController.computer.incPoison(4);
+			}
 		}
 
 		else if (this.getName().equals("Computer"))
@@ -39,7 +43,11 @@ public class Spider extends Fighter
 			// dec comp hitpoints, inc comp burn
 			message = this.getName() + " injects venom for " + x + " damage";
 			ArenaController.player.decHitpoints(x);
-			ArenaController.player.incPoison(3);
+			if (x > 6)
+			{	
+				message += "\n Player was poisoned!!";
+				ArenaController.player.incPoison(4);
+			}
 		}
 
 		special--;
