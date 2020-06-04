@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 
@@ -27,6 +28,22 @@ public class IntroController {
 
     @FXML
     private Button spider;
+
+    @FXML
+    // Randomizes a player name
+    private Button randButton;
+
+    @FXML
+    // Inputs Player Name
+    private Button enter;
+
+    @FXML
+    // A user input text field
+    private TextField userInput;
+
+    @FXML
+    // The welcome label.
+    private Label welcome;
 
     // Declare a blank stage 
     Stage stage = null;
@@ -60,6 +77,17 @@ public class IntroController {
         }
 
         return computer;
+    }
+
+    public void randListener() throws IOException
+    {
+        userInput.setText(User.generate());
+    }
+
+    public void enterListener() throws IOException
+    {
+        String message = userInput.getText();
+        welcome.setText(" Welcome to the Arena, " + message);
     }
 
     public void hoboListener() throws IOException 
