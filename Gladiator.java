@@ -19,7 +19,7 @@ public class Gladiator extends Fighter
 		int x = randomNumber.nextInt(10) + 1;
 		String message = this.getName() + " looks to the emperor, should the foe live or die my leige?\n";	
 
-		if (this.getName().equals("Player"))
+		if (!this.getName().equals("Computer"))
 			// Then Player is using special
 		{
 			if (ArenaController.computer.getHitpoints() < 50)

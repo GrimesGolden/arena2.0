@@ -32,15 +32,21 @@
       <Button fx:id="gladiator" layoutX="195.0" layoutY="316.0" mnemonicParsing="false" onAction="#gladiatorListener" text="Gladiator" />
       <Button fx:id="elf" layoutX="375.0" layoutY="316.0" mnemonicParsing="false" onAction="#elfListener" prefHeight="27.0" prefWidth="68.0" text="Elf" />
       <Button fx:id="spider" layoutX="486.0" layoutY="316.0" mnemonicParsing="false" onAction="#spiderListener" prefHeight="27.0" prefWidth="68.0" text="Spider" />
-      <Label fx:id="welcome" layoutX="135.0" layoutY="286.0" prefHeight="17.0" prefWidth="327.0" />
+      <Label fx:id="welcome" layoutX="137.0" layoutY="268.0" prefHeight="45.0" prefWidth="332.0" />
       <Button fx:id="randButton" layoutX="136.0" layoutY="230.0" mnemonicParsing="false" onAction="#randListener" text="Generate Name" />
       <TextField fx:id="userInput" layoutX="246.0" layoutY="230.0" text="Player" />
-      <Button fx:id="enter" layoutX="416.0" layoutY="230.0" mnemonicParsing="false" onAction="#enterListener" text="Input" />
+      <Button fx:id="enter" layoutX="416.0" layoutY="230.0" mnemonicParsing="false" onAction="#enterListener" text="Start" />
       <Label layoutX="229.0" layoutY="192.0" text="Please enter your name to begin." />
       <Label layoutX="269.0" layoutY="149.0" text="The Arena">
          <font>
             <Font size="24.0" />
          </font>
       </Label>
+      <Label layoutX="14.0" layoutY="379.0" text="2020 Grimes Golden Software">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Label>
+      <Label layoutX="375.0" layoutY="155.0" text="(beta)" />
    </children>
 </AnchorPane>

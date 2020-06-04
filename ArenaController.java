@@ -112,18 +112,18 @@ public class ArenaController {
 
     
 
-    public void initFighter(Fighter fighter)
+    public void initFighter(Fighter fighter, String name)
     // First scene before any interactions are made. 
     {
         player = fighter;
         playerImg.setImage(player.getImage());
-        playerDisplay.setText("You chose " + player.getName() + "\n" + player.getBio());
+        playerDisplay.setText(" Welcome to the Arena, " + name + "\nYou chose " + player.getName() + "\n" + player.getBio());
         // Parse the string value and set the label.
         playerHitLabel.setText(String.valueOf(player.getHitpoints()));
         playerStaminaLabel.setText(String.valueOf(player.getStamina()));
         playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
 
-        player.setName("Player"); // Set name to keep track.
+        player.setName(name); // Set name to keep track.
     }
 
     public void initComputer(Fighter fighter)
@@ -184,7 +184,7 @@ public class ArenaController {
         // Get a random number 1-10.
         int x = randomNumber.nextInt(10) + 1; 
         // Display message regarding punch.
-        String message = "You punch Computer for " + x + " points";
+        String message = player.getName() + " punches" + " Computer for " + x + " points";
         playerDisplay.setText(message);
         // Reduce hitpoints accordingly.
         computer.decHitpoints(x);
@@ -210,7 +210,7 @@ public class ArenaController {
     {   
         playerImg.setImage(player.getKick());
         int x = randomNumber.nextInt(10) + 1;
-        String message = "You kick Computer for " + x + " points";
+        String message = player.getName() + " kicks" + " Computer for " + x + " points";
         playerDisplay.setText(message);
         computer.decHitpoints(x);
         
@@ -237,7 +237,7 @@ public class ArenaController {
         // Random number between 1-10.
         int x = randomNumber.nextInt(10) + 1;
         // Print and display message accordingly.
-        String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
+        String message = player.getName() + " attacks with the " + player.getWeapon() + " for " + x + " points";
         playerDisplay.setText(message);
         // Reduce computers hitpoints.
         computer.decHitpoints(x);
@@ -319,7 +319,7 @@ public class ArenaController {
         if (computer.getHitpoints() <= 0)
             // If computer is dead
         {
-            playerDisplay.appendText("\nOMG you won!");
+            playerDisplay.appendText("\nCongrulations " + player.getName() + " you won!");
             compDisplay.appendText("\nDed.");
             playerImg.setImage(win);
             compImg.setImage(lose);

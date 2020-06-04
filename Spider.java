@@ -18,7 +18,7 @@ public class Spider extends Fighter
 	// Will be overidden
 	{
 		String message = "I will be overidden";
-		if (this.getName().equals("Player")) // Then it's the player using specialMove()
+		if (!this.getName().equals("Computer")) // Then it's the player using specialMove()
 		{
 			Random randomNumber = new Random();
 			int x = randomNumber.nextInt(10) + 1; // Standard damage.

@@ -13,7 +13,6 @@ import javafx.scene.control.Label;
 import java.awt.event.ActionEvent;
 import java.util.Random;
 
-
 public class IntroController {
 
     // Declare private components
@@ -47,6 +46,16 @@ public class IntroController {
 
     // Declare a blank stage 
     Stage stage = null;
+    String name = "Player";
+
+    public void initialize()
+    {   
+        // When intro begins, all buttons to go to arena stage are invis.
+        hobo.setVisible(false);
+        gladiator.setVisible(false);
+        elf.setVisible(false);
+        spider.setVisible(false);
+    }
 
     public static Fighter computers_pick()
     // Picks the computers fighter at random.
@@ -86,8 +95,21 @@ public class IntroController {
 
     public void enterListener() throws IOException
     {
-        String message = userInput.getText();
-        welcome.setText(" Welcome to the Arena, " + message);
+        name = userInput.getText();
+        if (name.equals("Computer"))
+        {
+          userInput.setText("Player");
+          welcome.setText("That name is taken, try again.");
+        }
+
+        else
+        {
+            welcome.setText(" Good Luck, " + name + ". Select a fighter: ");
+            hobo.setVisible(true);
+            gladiator.setVisible(true);
+            elf.setVisible(true);
+            spider.setVisible(true);
+        }
     }
 
     public void hoboListener() throws IOException 
@@ -110,7 +132,7 @@ public class IntroController {
         stage.show();
 
         ArenaController controller = loader.getController();
-        controller.initFighter(new Hobo()); 
+        controller.initFighter(new Hobo(), name); 
         controller.initComputer(computers_pick()); // When you initialize fighter you should also load computer.
     } // End method
 
@@ -134,7 +156,7 @@ public class IntroController {
         stage.show();
 
         ArenaController controller = loader.getController();
-        controller.initFighter(new Gladiator()); // Init player  
+        controller.initFighter(new Gladiator(), name); // Init player  
         controller.initComputer(computers_pick()); 
     }
 
@@ -158,7 +180,7 @@ public class IntroController {
         stage.show();
 
         ArenaController controller = loader.getController();
-        controller.initFighter(new Elf()); // And this line too.
+        controller.initFighter(new Elf(), name); // And this line too.
         controller.initComputer(computers_pick()); 
     }
 
@@ -182,7 +204,7 @@ public class IntroController {
         stage.show();
 
         ArenaController controller = loader.getController();
-        controller.initFighter(new Spider()); // And this line too. 
+        controller.initFighter(new Spider(), name); // And this line too. 
         controller.initComputer(computers_pick());
     }
 
