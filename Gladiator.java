@@ -25,7 +25,10 @@ public class Gladiator extends Fighter
 			" it's thumbs down, FINISH HIM!";
 
 			if (this.getName().equals("Player"))
-			ArenaController.computer.decHitpoints(100);
+			{
+				ArenaController.computer.decHitpoints(100);
+				message += ("\n" + this.getName() + " brutally executes the foe!");
+			}
 
 			else
 			{

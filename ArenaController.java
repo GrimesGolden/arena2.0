@@ -138,7 +138,7 @@ public class ArenaController {
 
         computer.setName("Computer"); // At this point we set the name to avoid confusion and track computer.
     }
- 
+    
     public void quitListener()
         throws IOException
     // Returns you to the Intro scene.
@@ -178,18 +178,30 @@ public class ArenaController {
     // Simulates the player punching.
     {
         playerImg.setImage(player.getPunch());
-        int x = randomNumber.nextInt(10) + 1;
+        int x = randomNumber.nextInt(10) + 1; 
         String message = "You punch Computer for " + x + " points";
         playerDisplay.setText(message);
 
         computer.decHitpoints(x);
-        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-        manageGame();
-        compsMove();
+
+        if (computer.getHitpoints() <= 0)
+            // If this hit kills the computer.
+            // Then cut to manage game and set hitpoints to zero. 
+        {
+           compHitLabel.setText("0");
+           manageGame(); 
+        } 
+
+        else
+        // Otherwise set hitpoints and continue.
+        {
+            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+            manageGame();
+        }
     }
 
     public void kickListener()
-    // Simulates the player punching.
+    // Simulates the player kicking.
     {
         playerImg.setImage(player.getKick());
         int x = randomNumber.nextInt(10) + 1;
@@ -197,9 +209,18 @@ public class ArenaController {
         playerDisplay.setText(message);
 
         computer.decHitpoints(x);
-        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-        manageGame();
-        compsMove();
+        
+        if (computer.getHitpoints() <= 0)
+        {
+           compHitLabel.setText("0");
+           manageGame(); 
+        } 
+
+        else
+        {
+            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+            manageGame();
+        }
     }
 
     public void weaponListener()
@@ -213,13 +234,22 @@ public class ArenaController {
         int x = randomNumber.nextInt(10) + 1;
         String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
         playerDisplay.setText(message);
+        playerStaminaLabel.setText(String.valueOf(player.getStamina()));
 
         player.decStamina(10);
         computer.decHitpoints(x);
-        playerStaminaLabel.setText(String.valueOf(player.getStamina()));
-        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-        manageGame();
-        compsMove();
+
+        if (computer.getHitpoints() <= 0)
+        {
+           compHitLabel.setText("0");
+        } 
+
+        else
+        {
+            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        }
+
+        manageGame(); // manage game is outside of if, else loop. 
     }
 
     public void specialListener()
@@ -232,23 +262,34 @@ public class ArenaController {
         }
 
         playerImg.setImage(player.getSpecialImg());
-        playerDisplay.setText(player.specialMove());
-        playerHitLabel.setText(String.valueOf(player.getHitpoints()));
-        compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+
+        String message = player.specialMove(); // Saves text and runs specialMove()
         playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
-        manageGame();
-        compsMove();
+        playerHitLabel.setText(String.valueOf(player.getHitpoints())); // Because some special moves manage health.
+        playerDisplay.setText(message);
+
+        if (computer.getHitpoints() <= 0) // Special move killed computer
+        {
+           compHitLabel.setText("0");
+        } 
+
+        else // It didnt kill the comp, continue fight.
+        {
+            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        }
+
+        manageGame(); 
     }
 
     public void manageGame()
-    // This method will attempt to track deaths, track poison, and other such oddities. 
+    // This method will attempt to track deaths, track poison, and other such oddities.
+    // Also contains the computersTurn
     {
         if (player.getHitpoints() <= 0)
         {
-            playerDisplay.setText("Game Over!");
+            playerDisplay.appendText("\nGame Over!");
             playerImg.setImage(lose);
-
-            compDisplay.setText("Computer won!");
+            compDisplay.appendText("\nComputer won!");
 
             // Disable all but the quit button.
             punchButton.setDisable(true);
@@ -260,8 +301,8 @@ public class ArenaController {
 
         if (computer.getHitpoints() <= 0)
         {
-            playerDisplay.setText("You fucking won!");
-            compDisplay.setText("Ded.");
+            playerDisplay.appendText("\nYou fucking won!");
+            compDisplay.appendText("\nDed.");
             playerImg.setImage(win);
             compImg.setImage(lose);
 
@@ -271,9 +312,15 @@ public class ArenaController {
             specButton.setDisable(true);
             instButton.setDisable(true);
         }
+
+        else if (computer.getHitpoints() > 0 && player.getHitpoints() > 0)
+        // If both players are still alive, then it's the computers turn. 
+        {
+            compsMove();
+        }
     }
 
-    public void compsMove()
+    public void compsMove() // Call to manage game removed. 
     // Computers turn and all accompanying moves.
     {
         int i = randomNumber.nextInt(4);
@@ -295,13 +342,23 @@ public class ArenaController {
         {
             // Computer punches
             compImg.setImage(computer.getPunch());
-            int x = randomNumber.nextInt(20) + 1;
+            int x = randomNumber.nextInt(10) + 1; 
             String message = "Computer punches for " + x + " points";
             compDisplay.setText(message);
 
             player.decHitpoints(x);
-            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
-            manageGame();
+
+            if (player.getHitpoints() <= 0)
+            {
+                playerHitLabel.setText("0");
+                manageGame(); 
+            } 
+
+            else
+            {
+                playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            }
+    
         } // End if
 
         else if (i == 1)
@@ -313,8 +370,17 @@ public class ArenaController {
             compDisplay.setText(message);
 
             player.decHitpoints(x);
-            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
-            manageGame();
+
+            if (player.getHitpoints() <= 0)
+            {
+                playerHitLabel.setText("0");
+                manageGame(); // This call to manage game could cause issues...
+            } 
+
+            else
+            {
+                playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            }
         }
 
         else if (i == 2)
@@ -326,21 +392,42 @@ public class ArenaController {
             compDisplay.setText(message);
 
             computer.decStamina(10);
-            player.decHitpoints(x);
             compStaminaLabel.setText(String.valueOf(computer.getStamina()));
-            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
-            manageGame();
+            player.decHitpoints(x);
+
+            if (player.getHitpoints() <= 0)
+            {
+                playerHitLabel.setText("0");
+                manageGame();
+            }
+
+            else
+            {
+                compStaminaLabel.setText(String.valueOf(computer.getStamina()));
+                playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            }
         }
 
          else if (i == 3)
         {   
             // Computer uses special
             compImg.setImage(computer.getSpecialImg());
-            compDisplay.setText(computer.specialMove());
-            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
-            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
-            compSpecialLabel.setText(String.valueOf(computer.getSpecial()));
-            manageGame();
+
+            String message = computer.specialMove(); // Saves text and runs specialMove()
+            compDisplay.setText(message);
+            compSpecialLabel.setText(String.valueOf(computer.getSpecial())); // Decrement special
+            compHitLabel.setText(String.valueOf(computer.getHitpoints())); // For moves that manage health.
+
+            if (player.getHitpoints() <= 0)
+            {
+                playerHitLabel.setText("0");
+                manageGame();   
+            }
+
+            else
+            {
+                playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            }
         }
         
     }

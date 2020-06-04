@@ -24,7 +24,7 @@ public class Hobo extends Fighter
 
 		if (this.getSpecial() > 0)
 		{
-			message = this.getName() + " chugs 40 to heal for: \n" + x + " hitpoints";
+			message = this.getName() + " chugs a 40 to heal for: \n" + x + " hitpoints";
 			this.incHitpoints(x);
 		}
 
