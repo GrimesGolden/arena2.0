@@ -79,6 +79,10 @@ public class ArenaController {
 
     private Image blank;
 
+    private Image lose;
+
+    private Image win;
+
     private Image instructions;
 
     private Scene introScene;
@@ -102,6 +106,8 @@ public class ArenaController {
         elf = new Image("elf.jpg");
         spider = new Image("spider.jpg");
         blank = new Image("faceless.jpg");
+        lose = new Image("dead.jpg");
+        win = new Image("victory.gif");
         instructions = new Image("instructions.jpg");
     }
 
@@ -115,6 +121,8 @@ public class ArenaController {
         playerHitLabel.setText(String.valueOf(player.getHitpoints()));
         playerStaminaLabel.setText(String.valueOf(player.getStamina()));
         playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
+
+        player.setName("Player"); // Set name to keep track.
     }
 
     public void initComputer(Fighter fighter)
@@ -127,6 +135,8 @@ public class ArenaController {
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
         compStaminaLabel.setText(String.valueOf(computer.getStamina()));
         compSpecialLabel.setText(String.valueOf(computer.getSpecial()));
+
+        computer.setName("Computer"); // At this point we set the name to avoid confusion and track computer.
     }
  
     public void quitListener()
@@ -174,6 +184,8 @@ public class ArenaController {
 
         computer.decHitpoints(x);
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        manageGame();
+        compsMove();
     }
 
     public void kickListener()
@@ -186,27 +198,151 @@ public class ArenaController {
 
         computer.decHitpoints(x);
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        manageGame();
+        compsMove();
     }
 
     public void weaponListener()
     // Simulates the player punching.
-    {
+    {   
+        if (player.getStamina() <= 10)
+        {
+            wepButton.setDisable(true);
+        }
         playerImg.setImage(player.getWeaponImg());
         int x = randomNumber.nextInt(10) + 1;
         String message = "You attack with the " + player.getWeapon() + " for " + x + " points";
         playerDisplay.setText(message);
 
+        player.decStamina(10);
         computer.decHitpoints(x);
+        playerStaminaLabel.setText(String.valueOf(player.getStamina()));
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+        manageGame();
+        compsMove();
     }
 
     public void specialListener()
     // Simulates the special move.
     {   
+        if (player.getSpecial() <= 1)
+            // Out of specials.
+        {
+            specButton.setDisable(true);
+        }
+
         playerImg.setImage(player.getSpecialImg());
         playerDisplay.setText(player.specialMove());
         playerHitLabel.setText(String.valueOf(player.getHitpoints()));
         compHitLabel.setText(String.valueOf(computer.getHitpoints()));
         playerSpecialLabel.setText(String.valueOf(player.getSpecial()));
+        manageGame();
+        compsMove();
     }
+
+    public void manageGame()
+    // This method will attempt to track deaths, track poison, and other such oddities. 
+    {
+        if (player.getHitpoints() <= 0)
+        {
+            playerDisplay.setText("Game Over!");
+            playerImg.setImage(lose);
+
+            compDisplay.setText("Computer won!");
+
+            // Disable all but the quit button.
+            punchButton.setDisable(true);
+            kickButton.setDisable(true);
+            wepButton.setDisable(true);
+            specButton.setDisable(true);
+            instButton.setDisable(true);
+        }
+
+        if (computer.getHitpoints() <= 0)
+        {
+            playerDisplay.setText("You fucking won!");
+            compDisplay.setText("Ded.");
+            playerImg.setImage(win);
+            compImg.setImage(lose);
+
+            punchButton.setDisable(true);
+            kickButton.setDisable(true);
+            wepButton.setDisable(true);
+            specButton.setDisable(true);
+            instButton.setDisable(true);
+        }
+    }
+
+    public void compsMove()
+    // Computers turn and all accompanying moves.
+    {
+        int i = randomNumber.nextInt(4);
+
+        if (computer.getSpecial() <= 0)
+            // Simulates not using special if out of specials.
+        {
+            i = randomNumber.nextInt(3);
+        }
+
+        if (computer.getStamina() <= 0)
+            // Simulates not using weapon if out of stamina.
+
+        {
+            i = randomNumber.nextInt(2);
+        }
+
+        if (i == 0)
+        {
+            // Computer punches
+            compImg.setImage(computer.getPunch());
+            int x = randomNumber.nextInt(20) + 1;
+            String message = "Computer punches for " + x + " points";
+            compDisplay.setText(message);
+
+            player.decHitpoints(x);
+            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            manageGame();
+        } // End if
+
+        else if (i == 1)
+        {   
+            // Computer kicks
+            compImg.setImage(computer.getKick());
+            int x = randomNumber.nextInt(20) + 1;
+            String message = "Computer kicks for " + x + " points";
+            compDisplay.setText(message);
+
+            player.decHitpoints(x);
+            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            manageGame();
+        }
+
+        else if (i == 2)
+        {   
+            // Computer uses weapon
+            compImg.setImage(computer.getWeaponImg());
+            int x = randomNumber.nextInt(20) + 1;
+            String message = "Computer attacks with " + computer.getWeapon() +  " for " + x + " points";
+            compDisplay.setText(message);
+
+            computer.decStamina(10);
+            player.decHitpoints(x);
+            compStaminaLabel.setText(String.valueOf(computer.getStamina()));
+            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            manageGame();
+        }
+
+         else if (i == 3)
+        {   
+            // Computer uses special
+            compImg.setImage(computer.getSpecialImg());
+            compDisplay.setText(computer.specialMove());
+            playerHitLabel.setText(String.valueOf(player.getHitpoints()));
+            compHitLabel.setText(String.valueOf(computer.getHitpoints()));
+            compSpecialLabel.setText(String.valueOf(computer.getSpecial()));
+            manageGame();
+        }
+        
+    }
+        
 }

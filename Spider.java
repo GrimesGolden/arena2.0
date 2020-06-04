@@ -9,11 +9,40 @@ public class Spider extends Fighter
 	private String weapon = "Venomous Fangs";
 	private int special = 3;
 	private Image image = new Image("spider.jpg");
+	private Image punch = new Image("spiderpunch.jpg");
+	private Image kick = new Image("spiderkick.jpg");
+	private Image weaponImg = new Image("spiderweapon.jpg");
+	private Image specialImg = new Image("spiderspecial.jpg");
 
 	public String specialMove()
 	// Will be overidden
 	{
-		String message = "Special move, coming soon";
+		String message = "I will be overidden";
+		if (this.getName().equals("Player")) // Then it's the player using specialMove()
+		{
+			Random randomNumber = new Random();
+			int x = randomNumber.nextInt(10) + 1; // Standard damage.
+		
+			// Sends message about flaming arrow.
+			// dec comp hitpoints, inc comp burn
+			message = this.getName() + " injects venom for " + x + " damage";
+			ArenaController.computer.decHitpoints(x);
+			ArenaController.computer.incPoison(3);
+		}
+
+		else if (this.getName().equals("Computer"))
+		{
+			Random randomNumber = new Random();
+			int x = randomNumber.nextInt(10) + 1; // Standard damage.
+		
+			// Sends message about flaming arrow.
+			// dec comp hitpoints, inc comp burn
+			message = this.getName() + " injects venom for " + x + " damage";
+			ArenaController.player.decHitpoints(x);
+			ArenaController.player.incPoison(3);
+		}
+
+		special--;
 		return message;
 	}
 
@@ -23,6 +52,30 @@ public class Spider extends Fighter
 	{
 		// Returns the image
 		return image;
+	}
+
+	public Image getPunch()
+	{
+		// Returns kick image
+		return punch;
+	}
+
+	public Image getKick()
+	{
+		// Returns kick image
+		return kick;
+	}
+
+	public Image getWeaponImg()
+	{
+		// Returns kick image
+		return weaponImg;
+	}
+
+	public Image getSpecialImg()
+	{
+		// Returns kick image
+		return specialImg;
 	}
 
 	public String getName()

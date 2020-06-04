@@ -23,7 +23,14 @@ public class Gladiator extends Fighter
 		{
 			message = this.getName() + " looks to the emperor, should my foe live or die leige?\n" + 
 			" it's thumbs down, FINISH HIM!";
+
+			if (this.getName().equals("Player"))
 			ArenaController.computer.decHitpoints(100);
+
+			else
+			{
+				ArenaController.player.decHitpoints(100);
+			}
 		}
 
 		else if (x < 5)
@@ -32,6 +39,7 @@ public class Gladiator extends Fighter
 			" it's thumbs up, continue the fight!";
 		}	
 
+		special--;
 		return message;
 	}
 
